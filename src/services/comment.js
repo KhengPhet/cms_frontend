@@ -1,4 +1,4 @@
-import API from "./Api";
+import API from "./api";
 
 const CommentAPI = {
     async getByPost(postId) {
