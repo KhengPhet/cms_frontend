@@ -1,0 +1,1 @@
+export const COMMENTS_STORAGE_PREFIX = 'news_comments'
