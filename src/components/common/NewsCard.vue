@@ -83,7 +83,7 @@
 </template>
 
 <script setup>
-import { computed , onMounted } from "vue";
+import { computed } from "vue";
 import PostAPI from "../../services/post";
 import { useRouter } from "vue-router";
 
@@ -119,65 +119,6 @@ const props = defineProps({
     default: 0,
   },
 });
-
-const fetchAllPosts = async () => {
-  loading.value = true;
-  try {
-    const response = await PostAPI.getAll();
-    console.log("API RESPONSE:", response);
-
-    let posts = [];
-    if (response.posts) {
-      posts = response.posts;
-    } else if (response.data) {
-      posts = response.data;
-    } else if (Array.isArray(response)) {
-      posts = response;
-    } else {
-      posts = [];
-    }
-
-    if (Array.isArray(posts) && posts.length > 0) {
-      allPosts.value = posts.map((post) => ({
-        id: post.id,
-        title: post.title,
-        image: getImageUrl(post.thumbnail),
-        category: post.category_name || post.category || "ព័ត៌មាន",
-        category_id: post.category_id,
-        created_at: post.created_at,
-        formattedTime: formatDate(post.created_at),
-        views: post.views || 0,
-        commentCount: parseInt(post.comment_count) || 0, // Make sure this is properly mapped
-        slug: post.slug,
-        excerpt: post.excerpt,
-        status: post.status,
-      }));
-
-      // Log to verify comment counts
-      console.log(
-        "Posts with comment counts:",
-        allPosts.value.map((p) => ({
-          title: p.title,
-          commentCount: p.commentCount,
-        }))
-      );
-
-      trending.value = [...allPosts.value]
-        .sort((a, b) => (b.views || 0) - (a.views || 0))
-        .slice(0, 3);
-
-      sportNews.value = allPosts.value.filter((p) => p.category_id == 1);
-      socialNews.value = allPosts.value.filter((p) => p.category_id == 2);
-      entertainmentNews.value = allPosts.value.filter(
-        (p) => p.category_id == 3
-      );
-    }
-  } catch (err) {
-    console.error("ERROR fetching posts:", err);
-  } finally {
-    loading.value = false;
-  }
-};
 
 const goToDetail = async () => {
   try {
