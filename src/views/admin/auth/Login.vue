@@ -84,7 +84,7 @@
       <!-- Footer -->
       <div class="text-center mt-4 text-sm">
         Don’t have an account?
-        <router-link to="/auth/register" class="text-blue-500 hover:underline">
+        <router-link to="/admin/auth/register" class="text-blue-500 hover:underline">
           register
         </router-link>
       </div>
@@ -96,7 +96,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import { loginAPI } from "../../services/useAuth";
+import { loginAPI } from "../../../services/auth";
 
 const email = ref("");
 const password = ref("");
@@ -130,12 +130,7 @@ async function login() {
       showConfirmButton: false,
     });
 
-    // Redirect based on role
-    if (data.user.role === "author") {
-      router.push("/admin/dashboard");
-    } else {
-      router.push("/");
-    }
+    router.push("/admin/dashboard");
   } catch (err) {
     Swal.fire({
       icon: "error",

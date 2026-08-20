@@ -1,55 +1,42 @@
 import API from "./api";
 
 const CategoryAPI = {
-    // Get all categories
-    async getAll() {
-        try {
-            const res = await API.get("/categories");
-            return res.data;
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-            throw error;
-        }
-    },
+  async getAll() {
+    const res = await API.get("/categories");
+    return res.data;
+  },
 
-    // Get category by ID
-    async getById(id) {
-        try {
-            const res = await API.get(`/categories/${id}`);
-            return res.data;
-        } catch (error) {
-            console.error("Error fetching category:", error);
-            throw error;
-        }
-    },
+  async getById(id) {
+    const res = await API.get(`/categories/${id}`);
+    return res.data;
+  },
 
-    // Get posts by category ID
-    async getPostsByCategoryId(categoryId) {
-        try {
-            const res = await API.get("/posts");
+  async create(data) {
+    const res = await API.post("/categories", data);
+    return res.data;
+  },
 
-            const posts = res.data.posts || res.data;
+  async update(id, data) {
+    const res = await API.put(`/categories/${id}`, data);
+    return res.data;
+  },
 
-            return posts.filter(p => p.category_id == categoryId);
-        } catch (error) {
-            console.error("Error filtering posts:", error);
-            throw error;
-        }
-    },
+  async remove(id) {
+    const res = await API.delete(`/categories/${id}`);
+    return res.data;
+  },
 
-    // Get posts by category name
-    async getPostsByCategoryName(categoryName) {
-        try {
-            const res = await API.get("/posts");
+  async getPostsByCategoryId(categoryId) {
+    const res = await API.get("/posts");
+    const posts = res.data.posts || res.data;
+    return posts.filter((p) => p.category_id == categoryId);
+  },
 
-            const posts = res.data.posts || res.data;
-
-            return posts.filter(p => p.category === categoryName);
-        } catch (error) {
-            console.error("Error filtering posts:", error);
-            throw error;
-        }
-    }
+  async getPostsByCategoryName(categoryName) {
+    const res = await API.get("/posts");
+    const posts = res.data.posts || res.data;
+    return posts.filter((p) => p.category === categoryName);
+  },
 };
 
 export default CategoryAPI;

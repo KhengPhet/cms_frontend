@@ -1,10 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Battambang:wght@300;400;700&display=swap');
 @import "tailwindcss";
 
+* {
+  box-sizing: border-box;
+}
 
 @theme {
   --font-battambang: "Battambang", sans-serif;
 }
+
 body {
+  margin: 0;
   font-family: var(--font-battambang);
+  background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #1e293b;
+}
+
+.goog-logo-link {
+  display: none !important;
+}
+.goog-te-gadget {
+  color: transparent !important;
 }

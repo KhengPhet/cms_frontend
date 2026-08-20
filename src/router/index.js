@@ -1,172 +1,141 @@
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHistory } from "vue-router";
 
-// views
-import Home from "../views/Home.vue"
+// CMS views
+import Home from "../views/Home.vue";
+import Sport from "../views/sports/Sport.vue";
+import SportsLocal from "../views/sports/SportsLocal.vue";
+import SportsInternational from "../views/sports/SportsInternational.vue";
+import Social from "../views/socials/Social.vue";
+import SNational from "../views/socials/SNational.vue";
+import International from "../views/socials/International.vue";
+import Entertainment from "../views/entertainments/Entertainment.vue";
+import ENational from "../views/entertainments/ENational.vue";
+import EInternational from "../views/entertainments/EInternational.vue";
+import Contact from "../views/Contact.vue";
+import CardDetail from "../components/common/CardDetail.vue";
+import Login from "../views/auth/Login.vue";
+import Register from "../views/auth/Register.vue";
+import AuthLayout from "../Layouts/AuthLayout.vue";
+import MainLayout from "../Layouts/MainLayout.vue";
 
-// sports
-import Sport from "../views/sports/Sport.vue"
-import SportsLocal from "../views/sports/SportsLocal.vue"
-import SportsInternational from "../views/sports/SportsInternational.vue"
+// Admin views
+import AdminLayout from "../Layouts/admin/AdminLayout.vue";
+import AdminDashboard from "../views/admin/dashboard/Dashboard.vue";
+import AdminContent from "../views/admin/content/Content.vue";
+import AdminEditor from "../views/admin/content/Editor.vue";
+import AdminCategories from "../views/admin/categories/Categories.vue";
+import AdminComments from "../views/admin/comments/Comments.vue";
+import AdminCollections from "../views/admin/collections/Collections.vue";
+import AdminMedia from "../views/admin/media/Media.vue";
+import AdminAuthors from "../views/admin/users/Authors.vue";
 
-// social
-import Social from "../views/socials/Social.vue"
-import SNational from "../views/socials/SNational.vue"
-import International from "../views/socials/International.vue"
-
-// entertainment
-import Entertainment from "../views/entertainments/Entertainment.vue"
-import ENational from "../views/entertainments/ENational.vue"
-import EInternational from "../views/entertainments/EInternational.vue"
-
-// other
-import Contact from "../views/Contact.vue"
-import CardDetail from "../components/common/CardDetail.vue"
-
-// auth
-import Login from "../views/auth/Login.vue"
-import Register from "../views/auth/Register.vue"
-import AuthLayout from "../Layouts/AuthLayout.vue"
-import MainLayout from "../Layouts/MainLayout.vue"
+const getUser = () => {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+};
 
 const routes = [
-  // Auth routes (no layout needed, they have their own AuthLayout)
+  // Auth routes (unified for all users)
   {
     path: "/auth",
     component: AuthLayout,
     children: [
-      {
-        path: "login",
-        name: "login",
-        component: Login,
-      },
-      {
-        path: "register",
-        name: "register",
-        component: Register,
-      },
+      { path: "login", name: "login", component: Login },
+      { path: "register", name: "register", component: Register },
     ],
   },
-  
-  // Main app routes with MainLayout
+
+  // CMS main routes
   {
     path: "/",
     component: MainLayout,
     children: [
-      { 
-        path: "", 
-        name: "home", 
-        component: Home 
-      },
-
-      // Sports
-      { 
-        path: "sports", 
-        name: "sports", 
-        component: Sport 
-      },
-      { 
-        path: "sports/local", 
-        name: "sports-local", 
-        component: SportsLocal 
-      },
-      { 
-        path: "sports/international", 
-        name: "sports-international", 
-        component: SportsInternational 
-      },
-
-      // Social
-      { 
-        path: "social", 
-        name: "social", 
-        component: Social 
-      },
-      { 
-        path: "social/local", 
-        name: "social-local", 
-        component: SNational 
-      },
-      { 
-        path: "social/international", 
-        name: "social-international", 
-        component: International 
-      },
-
-      // Entertainment
-      { 
-        path: "entertainment", 
-        name: "entertainment", 
-        component: Entertainment 
-      },
-      { 
-        path: "entertainment/local", 
-        name: "entertainment-local", 
-        component: ENational 
-      },
-      { 
-        path: "entertainment/international", 
-        name: "entertainment-international", 
-        component: EInternational 
-      },
-
-      // Contact
-      { 
-        path: "contact", 
-        name: "contact", 
-        component: Contact 
-      },
-
-      // News Detail - Accessible to everyone
-      {
-        path: "news/:id",
-        name: "news-detail",
-        component: CardDetail,
-        props: true
-      },
-    ]
+      { path: "", name: "home", component: Home },
+      { path: "sports", name: "sports", component: Sport },
+      { path: "sports/local", name: "sports-local", component: SportsLocal },
+      { path: "sports/international", name: "sports-international", component: SportsInternational },
+      { path: "social", name: "social", component: Social },
+      { path: "social/local", name: "social-local", component: SNational },
+      { path: "social/international", name: "social-international", component: International },
+      { path: "entertainment", name: "entertainment", component: Entertainment },
+      { path: "entertainment/local", name: "entertainment-local", component: ENational },
+      { path: "entertainment/international", name: "entertainment-international", component: EInternational },
+      { path: "contact", name: "contact", component: Contact },
+      { path: "news/:id", name: "news-detail", component: CardDetail, props: true },
+    ],
   },
-  
-  // Catch all route for 404 - Optional
+
+  // Admin routes (author only)
   {
-    path: '/:pathMatch(.*)*',
-    name: 'not-found',
-    redirect: '/'
-  }
-]
+    path: "/admin",
+    component: AdminLayout,
+    meta: { requiresAuth: true, role: "author" },
+    children: [
+      { path: "", redirect: "/admin/dashboard" },
+      { path: "dashboard", name: "admin-dashboard", component: AdminDashboard },
+      { path: "content", name: "admin-content", component: AdminContent },
+      { path: "newpost", name: "admin-newpost", component: AdminEditor },
+      { path: "editpost/:id", name: "admin-editpost", component: AdminEditor, props: true },
+      { path: "categories", name: "admin-categories", component: AdminCategories },
+      { path: "comments", name: "admin-comments", component: AdminComments },
+      { path: "collections", name: "admin-collections", component: AdminCollections },
+      { path: "media", name: "admin-media", component: AdminMedia },
+      { path: "authors", name: "admin-authors", component: AdminAuthors },
+    ],
+  },
+
+  // Catch all
+  {
+    path: "/:pathMatch(.*)*",
+    name: "not-found",
+    redirect: "/",
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior() {
-    return { top: 0 }
-  }
-})
+    return { top: 0 };
+  },
+});
 
-// Navigation guard to check authentication
+// Auth guard — role-based redirect
 router.beforeEach((to, from, next) => {
-  // Check if the route requires authentication
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  
-  // Get token from localStorage
-  const token = localStorage.getItem('token') || localStorage.getItem('access_token')
-  const isLoggedIn = !!token
-  
-  // If route requires auth and user is not logged in
-  if (requiresAuth && !isLoggedIn) {
-    // Store the intended route to redirect after login
-    localStorage.setItem('redirectAfterLogin', to.fullPath)
-    // Redirect to login page
-    next('/auth/login')
-  } 
-  // If user is logged in and trying to access auth pages (login/register)
-  else if (isLoggedIn && (to.path === '/auth/login' || to.path === '/auth/register')) {
-    // Redirect to home page
-    next('/')
-  }
-  else {
-    // Proceed normally
-    next()
-  }
-})
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const requiredRole = to.matched.find((record) => record.meta.role)?.meta.role;
+  const token = localStorage.getItem("token");
+  const isLoggedIn = !!token;
+  const user = getUser();
 
-export default router
+  // If not logged in and route requires auth → go to login
+  if (requiresAuth && !isLoggedIn) {
+    localStorage.setItem("redirectAfterLogin", to.fullPath);
+    next("/auth/login");
+    return;
+  }
+
+  // If logged in but wrong role → redirect to appropriate page
+  if (isLoggedIn && requiredRole && user?.role !== requiredRole) {
+    if (user?.role === "author") {
+      next("/admin/dashboard");
+    } else {
+      next("/");
+    }
+    return;
+  }
+
+  // If logged in and trying to visit login/register → redirect by role
+  if (isLoggedIn && (to.path === "/auth/login" || to.path === "/auth/register")) {
+    if (user?.role === "author") {
+      next("/admin/dashboard");
+    } else {
+      next("/");
+    }
+    return;
+  }
+
+  next();
+});
+
+export default router;
