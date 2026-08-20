@@ -613,6 +613,7 @@ import { ref, onMounted, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import PostAPI from "../../../services/post";
 import categoryAPI from "../../../services/category";
+import { SERVER_BASE } from "../../../services/imageUrl";
 
 const router = useRouter();
 const route = useRoute();
@@ -642,10 +643,10 @@ const getThumbnailUrl = (thumbnail) => {
   if (thumbnail.startsWith("http")) return thumbnail;
 
   if (thumbnail.startsWith("/uploads")) {
-    return `http://localhost:5001${thumbnail}`;
+    return `${SERVER_BASE}${thumbnail}`;
   }
 
-  return `http://localhost:5001/uploads/posts/${thumbnail}`;
+  return `${SERVER_BASE}/uploads/posts/${thumbnail}`;
 };
 
 const generateSlug = () => {

@@ -411,6 +411,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import userAPI from "../../services/user";
+import { SERVER_BASE } from "../../services/imageUrl";
 
 /* ================= PROPS & EMITS ================= */
 const emit = defineEmits(["toggleSidebar", "search", "theme-change"]);
@@ -437,7 +438,7 @@ const getImageUrl = (file) => {
   if (!file) return null;
   if (file.startsWith("http")) return file;
 
-  return `http://localhost:5001/uploads/posts/${file}`;
+  return `${SERVER_BASE}/uploads/posts/${file}`;
 };
 
 // User data

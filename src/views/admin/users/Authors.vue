@@ -648,6 +648,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import AuthorAPI from "../../../services/author";
+import { SERVER_BASE } from "../../../services/imageUrl";
 
 const authors = ref([]);
 const showModal = ref(false);
@@ -675,7 +676,7 @@ const getImageUrl = (file) => {
 
   if (file.startsWith("http")) return file;
 
-  return `http://localhost:5001/uploads/${file}`;
+  return `${SERVER_BASE}/uploads/${file}`;
 };
 
 const capitalizeRole = (role) => {

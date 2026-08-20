@@ -629,10 +629,10 @@ let refreshInterval = null;
 onMounted(() => {
   loadPosts();
   
-  // Auto-refresh every 30 seconds
+  // Auto-refresh every 2 minutes
   refreshInterval = setInterval(() => {
     loadPosts();
-  }, 30000);
+  }, 120000);
 });
 
 onUnmounted(() => {

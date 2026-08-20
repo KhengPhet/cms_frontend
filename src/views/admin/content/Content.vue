@@ -584,6 +584,7 @@ import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import PostAPI from "../../../services/post";
 import categoryAPI from "../../../services/category";
+import { SERVER_BASE } from "../../../services/imageUrl";
 
 // State
 const posts = ref([]);
@@ -643,8 +644,8 @@ const stats = computed(() => {
 const getImageUrl = (file) => {
   if (!file) return null;
   if (file.startsWith("http")) return file;
-  if (file.startsWith("/uploads")) return `http://localhost:5001${file}`;
-  return `http://localhost:5001/uploads/posts/${file}`;
+  if (file.startsWith("/uploads")) return `${SERVER_BASE}${file}`;
+  return `${SERVER_BASE}/uploads/posts/${file}`;
 };
 
 // Thumbnail helper
@@ -652,8 +653,8 @@ const getThumbnailUrl = (thumbnail) => {
   if (!thumbnail) return null;
   if (thumbnail.startsWith("http")) return thumbnail;
   if (thumbnail.startsWith("/uploads"))
-    return `http://localhost:5001${thumbnail}`;
-  return `http://localhost:5001/uploads/posts/${thumbnail}`;
+    return `${SERVER_BASE}${thumbnail}`;
+  return `${SERVER_BASE}/uploads/posts/${thumbnail}`;
 };
 
 const handleImageError = (event) => {

@@ -163,7 +163,7 @@
               <span class="normal-case font-normal text-gray-400 ml-1">(optional)</span>
             </label>
             <textarea
-              v-model="form.desc"
+              v-model="form.description"
               placeholder="A short description of this category…"
               rows="3"
               class="w-full border border-gray-200 bg-gray-50 focus:bg-white text-sm px-3.5 py-2.5 rounded-xl outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition placeholder-gray-300 resize-none"
@@ -244,7 +244,7 @@ const openModal = (cat = null) => {
     form.value = { ...cat };
   } else {
     isEdit.value = false;
-    form.value = { id: null, name: "", slug: "", desc: "" };
+    form.value = { id: null, name: "", slug: "", description: "" };
   }
   showModal.value = true;
 };

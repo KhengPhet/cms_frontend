@@ -182,6 +182,7 @@ import { useRouter } from "vue-router";
 import NewsCard from "../../components/common/NewsCard.vue";
 import { computed, onMounted, ref, watch } from "vue";
 import PostAPI from "../../services/post";
+import { getImageUrl } from "../../services/imageUrl";
 
 const router = useRouter();
 const route = useRoute();
@@ -388,7 +389,7 @@ const fetchSportNews = async () => {
         id: p.id,
         image: p.thumbnail?.startsWith("http")
           ? p.thumbnail
-          : `http://localhost:5001${p.thumbnail}`,
+          : getImageUrl(p.thumbnail),
         title: p.title,
         category: p.category,
         time: p.created_at,

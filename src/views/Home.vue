@@ -249,6 +249,7 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import NewsCard from "../components/common/NewsCard.vue";
 import PostAPI from "../services/post";
+import { getImageUrl, SERVER_BASE } from "../services/imageUrl";
 
 const router = useRouter();
 
@@ -260,16 +261,6 @@ const socialNews = ref([]);
 const entertainmentNews = ref([]);
 const loading = ref(false);
 
-const getImageUrl = (file) => {
-  // already full URL
-  if (file.startsWith("http")) return file;
-  // fix path
-  if (file.startsWith("/")) {
-    return `http://localhost:5001${file}`;
-  }
-
-  return `http://localhost:5001/posts/${file}`;
-};
 // Format views number
 const formatViews = (views) => {
   if (!views) return "0 views";

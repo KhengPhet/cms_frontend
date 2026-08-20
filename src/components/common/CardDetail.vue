@@ -330,6 +330,7 @@ import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import CommentAPI from "../../services/comment";
 import PostAPI from "../../services/post";
+import { SERVER_BASE } from "../../services/imageUrl";
 
 const route = useRoute();
 const router = useRouter();
@@ -356,9 +357,9 @@ const getImageUrl = (file) => {
   if (!file) return null;
   if (file.startsWith("http")) return file;
   if (file.startsWith("/")) {
-    return `http://localhost:5001${file}`;
+    return `${SERVER_BASE}${file}`;
   }
-  return `http://localhost:5001/uploads/posts/${file}`;
+  return `${SERVER_BASE}/uploads/posts/${file}`;
 };
 
 

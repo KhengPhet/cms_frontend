@@ -40,6 +40,7 @@ import { ref, computed, watch, onMounted } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import NewsCard from '../../components/common/NewsCard.vue';
 import PostAPI from "../../services/post";
+import { getImageUrl } from "../../services/imageUrl";
 
 const route = useRoute();
 const International = ref([]);
@@ -78,7 +79,7 @@ const fetchInternationalNews = async () => {
         id: p.id,
         image: p.thumbnail?.startsWith("http")
           ? p.thumbnail
-          : `http://localhost:5001${p.thumbnail}`,
+          : getImageUrl(p.thumbnail),
         title: p.title,
         category: p.category,
         time: p.created_at,
